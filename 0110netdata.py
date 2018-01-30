@@ -133,25 +133,25 @@ def b_l_2(lender,borrowers_l,borrowers_to_lenders_df):
 
 
 threads_1=[]
-for borrower in borrowers_l:
+for borrower in borrowers_l[:3000]:
     t=threading.Thread(target=b_l_1,args=(borrower,lenders_l,borrowers_to_lenders_df,b_l_dic))
     threads_1.append(t)
 
-threads_2=[]
-for lender in lenders_l:
-    t=threading.Thread(target=b_l_2,args=(lender,borrowers_l,borrowers_to_lenders_df))
+# threads_2=[]
+# for lender in lenders_l:
+#     t=threading.Thread(target=b_l_2,args=(lender,borrowers_l,borrowers_to_lenders_df))
 
 for t in threads_1:
     t.setDaemon(False)
     t.start()
 print "thread1 is over"
 pd.DataFrame.to_csv(borrowers_to_lenders_df,path_or_buf="processed_datas/borrowers_to_lenders1.csv",index=False)
-
-borrowers_to_lenders_df["success_bid_percent_l"] = 0.00
-borrowers_to_lenders_df["L_bid_listing_num"] = 0
-borrowers_to_lenders_df["L_bid_win_listing_num"] = 0
-for t in threads_2:
-    t.setDaemon(False)
-    t.start()
-print "thread2 is over"
-pd.DataFrame.to_csv(borrowers_to_lenders_df,path_or_buf="processed_datas/borrowers_to_lenders.csv",index=False)
+#
+# borrowers_to_lenders_df["success_bid_percent_l"] = 0.00
+# borrowers_to_lenders_df["L_bid_listing_num"] = 0
+# borrowers_to_lenders_df["L_bid_win_listing_num"] = 0
+# for t in threads_2:
+#     t.setDaemon(False)
+#     t.start()
+# print "thread2 is over"
+# pd.DataFrame.to_csv(borrowers_to_lenders_df,path_or_buf="processed_datas/borrowers_to_lenders.csv",index=False)
